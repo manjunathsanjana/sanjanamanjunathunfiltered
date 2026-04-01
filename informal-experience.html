@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Informal Experience stories by Sanjana Unfiltered — raw moments, first-time adventures, casual reflections, and unscripted life." />
+  <title>Informal Experience — Sanjana Unfiltered</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- ─── Navbar ───────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar__logo">sanjanaunfiltered</a>
+
+    </div>
+  </nav>
+
+  <!-- ─── Page Hero ────────────────────────────────────── -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="hero__tag">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5">
+          <polygon
+            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+        Category
+      </span>
+      <h1 class="page-hero__title">Informal Experience</h1>
+      <p class="page-hero__desc">Raw moments, casual reflections, first-time adventures, and everything in between —
+        life, unscripted.</p>
+    </div>
+  </section>
+
+  <!-- ─── Posts List ───────────────────────────────────── -->
+  <section class="posts-list-section">
+    <div class="container">
+
+      <!-- ─── Pagination ───────────────────────────────────── -->
+      <div class="pagination" id="ie-pagination">
+        <button class="pagination__btn" aria-label="Previous page">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <button class="pagination__btn active">1</button>
+        <button class="pagination__btn">2</button>
+        <button class="pagination__btn">3</button>
+        <button class="pagination__btn" aria-label="Next page">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="posts-list">
+
+        <a href="#" class="post-list-item reveal" id="ie-post-1">
+          <div class="post-list-item__main">
+            <img src="images/category-informal.png" alt="Thumbnail" class="post-list-item__image" />
+            <h2 class="post-list-item__title">The Night I Did Open Mic for the First Time</h2>
+          </div>
+          <div class="post-list-item__meta">
+            <span class="post-list-item__date">Mar 20, 2026</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+# Exclude standard Windows/IDE/Mac files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Exclude local project-specific files
+implementation_plan.md
+task.md
+walkthrough.md
+*.tmp
+*.log
+.gemini/
