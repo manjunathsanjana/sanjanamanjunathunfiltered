@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Story by Sanjana Unfiltered — Life, unscripted." />
+  <title>Post — Sanjana Unfiltered</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Marked.js for Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body class="post-page">
+
+  <!-- ─── Navbar ───────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar__logo" aria-label="Go back to home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+          style="margin-right: 8px; vertical-align: middle;">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        sanjanaunfiltered
+      </a>
+    </div>
+  </nav>
+
+  <!-- ─── Post Header ──────────────────────────────────── -->
+  <header class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title" id="post-title">Loading...</h1>
+      <p class="page-hero__desc" id="post-date"></p>
+    </div>
+  </header>
+
+  <!-- ─── Post Content ─────────────────────────────────── -->
+  <main class="posts-list-section">
+    <div class="container">
+      <article id="post-content" class="post-content-body reveal">
+        <!-- Rendered Markdown will go here -->
+        <div class="loading-state">
+           <p>Brewing the perfect story...</p>
+        </div>
+      </article>
+      
+      <div class="post-nav">
+        <a href="food.html" class="hero__cta" style="margin-top: 3rem;">
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 18px; margin-right: 8px; transform: scaleX(-1);">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6m0 0l-6 6m6-6H3" />
+           </svg>
+           Back to Food
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    /* Premium Post Styling */
+    .post-content-body {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--color-bg-glass);
+      backdrop-filter: blur(16px);
+      padding: clamp(2rem, 5vw, 4rem);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(232,196,176,0.2);
+      box-shadow: var(--shadow-soft);
+      line-height: 1.8;
+      font-size: 1.15rem;
+      color: var(--color-text);
+    }
+
+    .post-content-body h1, 
+    .post-content-body h2, 
+    .post-content-body h3 {
+      margin: 2rem 0 1rem;
+      color: var(--color-accent);
+      line-height: 1.2;
+    }
+
+    .post-content-body p {
+      margin-bottom: 1.5rem;
+    }
+
+    .post-content-body ul, 
+    .post-content-body ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+
+    .post-content-body li {
+      margin-bottom: 0.5rem;
+    }
+
+    .post-content-body blockquote {
+      border-left: 4px solid var(--color-accent);
+      padding-left: 1.5rem;
+      font-style: italic;
+      color: var(--color-text-muted);
+      margin: 2rem 0;
+    }
+
+    .post-content-body img {
+      border-radius: var(--radius-md);
+      margin: 2.5rem 0;
+      box-shadow: var(--shadow-soft);
+      width: 100%;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 4rem 0;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    .post-nav {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+
+  <script src="script.js"></script>
+  <script>
+    // Post-specific logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const postFile = params.get('post');
+      
+      if (postFile) {
+        fetch(`files/${postFile}`)
+          .then(response => {
+            if (!response.ok) throw new Error('Post not found');
+            return response.text();
+          })
+          .then(markdown => {
+             // Extract title from the first # or ##
+             const titleMatch = markdown.match(/^#+\s+(.*)/m);
+             const title = titleMatch ? titleMatch[1] : 'Post';
+             document.title = `${title} — Sanjana Unfiltered`;
+             document.getElementById('post-title').textContent = title;
+             
+             // Clean up the markdown (remove the first title line if needed)
+             let cleanMd = markdown;
+             if (titleMatch) {
+               cleanMd = markdown.replace(titleMatch[0], '').trim();
+             }
+             
+             // Handle Obsidian-style image links ![[filename]]
+             cleanMd = cleanMd.replace(/!\[\[(.*?)\]\]/g, (match, fileName) => {
+               return `<img src="${fileName}" alt="${fileName}" />`;
+             });
+             
+             // Render Markdown
+             const contentHtml = marked.parse(cleanMd);
+             document.getElementById('post-content').innerHTML = contentHtml;
+             
+             // Trigger reveal animation
+             if (window.setupReveals) window.setupReveals();
+             setTimeout(() => {
+               document.getElementById('post-content').classList.add('visible');
+             }, 100);
+          })
+          .catch(err => {
+            document.getElementById('post-title').textContent = 'Oops!';
+            document.getElementById('post-content').innerHTML = `
+              <div style="text-align: center; padding: 4rem 0;">
+                <p>We couldn't find that story. Maybe it's still being written?</p>
+                <a href="index.html" class="navbar__logo" style="display: block; margin-top: 2rem;">Go Back Home</a>
+              </div>
+            `;
+          });
+      }
+    });
+  </script>
+</body>
+
+</html>

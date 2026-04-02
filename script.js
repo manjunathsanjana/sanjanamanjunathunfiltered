@@ -38,27 +38,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Intersection Observer (reveal on scroll) ───────────
-  const reveals = document.querySelectorAll('.reveal');
+  const setupReveals = () => {
+    const reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+            const index = Array.from(siblings).indexOf(entry.target);
+            entry.target.style.transitionDelay = `${index * 0.1}s`;
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach(el => observer.observe(el));
+    } else {
+      reveals.forEach(el => el.classList.add('visible'));
+    }
+  };
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          // Stagger siblings for a cascade effect
-          const siblings = entry.target.parentElement.querySelectorAll('.reveal');
-          const index = Array.from(siblings).indexOf(entry.target);
-          entry.target.style.transitionDelay = `${index * 0.1}s`;
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-    reveals.forEach(el => observer.observe(el));
-  } else {
-    // Fallback: reveal everything
-    reveals.forEach(el => el.classList.add('visible'));
-  }
+  setupReveals();
+  window.setupReveals = setupReveals; // Expose for dynamic content
 
   // ── Smooth scroll for anchor links ──────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
