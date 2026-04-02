@@ -125,48 +125,63 @@
       const postFile = params.get('post');
       
       if (postFile) {
-        fetch(`files/${postFile}`)
-          .then(response => {
-            if (!response.ok) throw new Error('Post not found');
-            return response.text();
-          })
-          .then(markdown => {
-             // Extract title from the first # or ##
-             const titleMatch = markdown.match(/^#+\s+(.*)/m);
-             const title = titleMatch ? titleMatch[1] : 'Post';
-             document.title = `${title} — Sanjana Unfiltered`;
-             document.getElementById('post-title').textContent = title;
-             
-             // Clean up the markdown (remove the first title line if needed)
-             let cleanMd = markdown;
-             if (titleMatch) {
-               cleanMd = markdown.replace(titleMatch[0], '').trim();
-             }
-             
-             // Handle Obsidian-style image links ![[filename]]
-             cleanMd = cleanMd.replace(/!\[\[(.*?)\]\]/g, (match, fileName) => {
-               return `<img src="${fileName}" alt="${fileName}" />`;
-             });
-             
-             // Render Markdown
-             const contentHtml = marked.parse(cleanMd);
-             document.getElementById('post-content').innerHTML = contentHtml;
-             
-             // Trigger reveal animation
-             if (window.setupReveals) window.setupReveals();
-             setTimeout(() => {
-               document.getElementById('post-content').classList.add('visible');
-             }, 100);
-          })
-          .catch(err => {
-            document.getElementById('post-title').textContent = 'Oops!';
-            document.getElementById('post-content').innerHTML = `
-              <div style="text-align: center; padding: 4rem 0;">
-                <p>We couldn't find that story. Maybe it's still being written?</p>
-                <a href="index.html" class="navbar__logo" style="display: block; margin-top: 2rem;">Go Back Home</a>
-              </div>
-            `;
-          });
+        const imageExts = /\.(jpg|jpeg|png|webp|gif)$/i;
+
+        if (imageExts.test(postFile)) {
+          // ── Image post ──────────────────────────────────
+          const name = postFile.replace(imageExts, '').replace(/[-_]/g, ' ');
+          const title = name.charAt(0).toUpperCase() + name.slice(1);
+          document.title = `${title} — Sanjana Unfiltered`;
+          document.getElementById('post-title').textContent = title;
+
+          document.getElementById('post-content').innerHTML = `
+            <img src="${postFile}" alt="${title}"
+              style="width:100%; border-radius: var(--radius-md); box-shadow: var(--shadow-elevated);" />
+          `;
+          setTimeout(() => {
+            document.getElementById('post-content').classList.add('visible');
+          }, 100);
+
+        } else {
+          // ── Markdown post ────────────────────────────────
+          fetch(`files/${postFile}`)
+            .then(response => {
+              if (!response.ok) throw new Error('Post not found');
+              return response.text();
+            })
+            .then(markdown => {
+               const titleMatch = markdown.match(/^#+\s+(.*)/m);
+               const title = titleMatch ? titleMatch[1] : 'Post';
+               document.title = `${title} — Sanjana Unfiltered`;
+               document.getElementById('post-title').textContent = title;
+
+               let cleanMd = markdown;
+               if (titleMatch) {
+                 cleanMd = markdown.replace(titleMatch[0], '').trim();
+               }
+
+               cleanMd = cleanMd.replace(/!\[\[(.*?)\]\]/g, (match, fileName) => {
+                 return `<img src="${fileName}" alt="${fileName}" />`;
+               });
+
+               const contentHtml = marked.parse(cleanMd);
+               document.getElementById('post-content').innerHTML = contentHtml;
+
+               if (window.setupReveals) window.setupReveals();
+               setTimeout(() => {
+                 document.getElementById('post-content').classList.add('visible');
+               }, 100);
+            })
+            .catch(err => {
+              document.getElementById('post-title').textContent = 'Oops!';
+              document.getElementById('post-content').innerHTML = `
+                <div style="text-align: center; padding: 4rem 0;">
+                  <p>We couldn't find that story. Maybe it's still being written?</p>
+                  <a href="index.html" class="navbar__logo" style="display: block; margin-top: 2rem;">Go Back Home</a>
+                </div>
+              `;
+            });
+        }
       }
     });
   </script>
