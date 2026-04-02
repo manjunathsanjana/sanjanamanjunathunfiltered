@@ -129,8 +129,10 @@
 
         if (imageExts.test(postFile)) {
           // ── Image post ──────────────────────────────────
-          const name = postFile.replace(imageExts, '').replace(/[-_]/g, ' ');
-          const title = name.charAt(0).toUpperCase() + name.slice(1);
+          const customTitle = params.get('title');
+          const name = postFile.replace(imageExts, '').replace(/[-_\/]/g, ' ').trim();
+          const autoTitle = name.charAt(0).toUpperCase() + name.slice(1);
+          const title = customTitle || autoTitle;
           document.title = `${title} — Sanjana Unfiltered`;
           document.getElementById('post-title').textContent = title;
 
