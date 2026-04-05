@@ -17,13 +17,12 @@
   <!-- ─── Navbar ───────────────────────────────────────── -->
   <nav class="navbar scrolled" id="navbar">
     <div class="container">
-      <a href="#" onclick="history.back(); return false;" class="navbar__logo" aria-label="Go back">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-          style="margin-right: 8px; vertical-align: middle;">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
         sanjanaunfiltered
+      </a>
+      <a href="https://x.com/she00574" target="_blank" class="navbar__social" aria-label="X (Twitter) Profile">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.482 3.239H4.293l13.314 17.411z"/>
+        </svg>
       </a>
     </div>
   </nav>
@@ -98,8 +97,14 @@
     .post-content-body img {
       border-radius: var(--radius-md);
       margin: 2.5rem 0;
-      box-shadow: var(--shadow-soft);
+      box-shadow: var(--shadow-elevated);
       width: 100%;
+      height: auto;
+      max-height: 85vh;
+      object-fit: cover;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
     }
 
     .loading-state {
