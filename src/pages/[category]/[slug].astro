@@ -24,9 +24,8 @@ const { Content } = await render(post);
 
 	<main class="posts-list-section">
 		<div class="container">
-			<a href={`/${post.data.category}`} class="back-button reveal">
-				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-				Back to {post.data.category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+			<a href={`/${post.data.category}`} class="back-link-float reveal" aria-label="Back to category">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
 			</a>
 
 			<article class="post-content-body reveal visible">
@@ -47,37 +46,43 @@ const { Content } = await render(post);
 		flex: 1;
 	}
 
-	.back-button {
-		display: inline-flex;
+	.back-link-float {
+		position: fixed;
+		top: 6rem;
+		left: 2rem;
+		width: 46px;
+		height: 46px;
+		display: flex;
 		align-items: center;
-		gap: 0.6rem;
-		margin-bottom: 2rem;
-		padding: 0.75rem 1.25rem;
-		background: var(--color-bg-glass);
-		backdrop-filter: blur(12px);
-		border: 1px solid rgba(232,196,176,0.2);
-		border-radius: var(--radius-md);
-		color: var(--color-text-muted);
-		font-weight: 600;
-		font-size: 0.8rem;
-		text-decoration: none;
-		transition: all var(--transition-base);
-		box-shadow: var(--shadow-soft);
-	}
-
-	.back-button:hover {
+		justify-content: center;
+		background: rgba(250, 245, 240, 0.7);
+		backdrop-filter: blur(16px) saturate(1.8);
+		-webkit-backdrop-filter: blur(16px) saturate(1.8);
+		border: 1px solid rgba(232, 196, 176, 0.3);
+		border-radius: 50%;
 		color: var(--color-accent);
-		border-color: var(--color-accent);
-		transform: translateX(-4px);
-		box-shadow: var(--shadow-elevated);
+		text-decoration: none;
+		z-index: 1000;
+		transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 	}
 
-	.back-button svg {
-		transition: transform var(--transition-base);
+	.back-link-float:hover {
+		background: var(--color-accent);
+		color: white;
+		transform: scale(1.1) rotate(-8deg);
+		box-shadow: 0 12px 48px rgba(232, 196, 176, 0.4);
+		border-color: transparent;
 	}
 
-	.back-button:hover svg {
-		transform: translateX(-2px);
+	@media (max-width: 900px) {
+		.back-link-float {
+			top: auto;
+			bottom: 2rem;
+			left: 2rem;
+			width: 40px;
+			height: 40px;
+		}
 	}
 
 	.post-content-body {
