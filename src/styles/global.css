@@ -836,12 +836,27 @@ ul { list-style: none; }
   .navbar__toggle { display: block; }
 
   .hero .container {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2.5rem;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__desc { 
+    margin: 0 auto 1.5rem; 
     text-align: center;
   }
 
-  .hero__desc { margin: 0 auto 2rem; }
+  .section-header {
+    text-align: center;
+  }
 
   .categories__grid {
     grid-template-columns: 1fr 1fr;
