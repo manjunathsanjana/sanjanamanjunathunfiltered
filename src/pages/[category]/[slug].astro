@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post: CollectionEntry<'blog'>) => ({
+		params: { category: post.data.category, slug: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} — Sanjana Unfiltered`}>
+	<header class="page-hero">
+		<div class="container">
+			<h1 class="page-hero__title">{post.data.title}</h1>
+			<p class="page-hero__desc">{post.data.date}</p>
+		</div>
+	</header>
+
+	<main class="posts-list-section">
+		<div class="container">
+			<article class="post-content-body reveal visible">
+				<Content />
+				{post.data.image && (
+					<div class="post-image-content">
+						<img src={post.data.image} alt={post.data.title} style="width:100%; border-radius: var(--radius-md); box-shadow: var(--shadow-elevated);" />
+					</div>
+				)}
+			</article>
+		</div>
+	</main>
+</Layout>
+
+<style is:global>
+	.post-content-body {
+		max-width: 800px;
+		margin: 0 auto;
+		background: var(--color-bg-glass);
+		backdrop-filter: blur(16px);
+		padding: clamp(2rem, 5vw, 4rem);
+		border-radius: var(--radius-lg);
+		border: 1px solid rgba(232,196,176,0.2);
+		box-shadow: var(--shadow-soft);
+		line-height: 1.8;
+		font-size: 1.15rem;
+		color: var(--color-text);
+	}
+
+	.post-content-body h1, 
+	.post-content-body h2, 
+	.post-content-body h3 {
+		margin: 2rem 0 1rem;
+		color: var(--color-accent);
+		line-height: 1.2;
+	}
+
+	.post-content-body p {
+		margin-bottom: 1.5rem;
+	}
+
+	.post-content-body img {
+		border-radius: var(--radius-md);
+		margin: 2.5rem 0;
+		box-shadow: var(--shadow-elevated);
+		width: 100%;
+		height: auto;
+		display: block;
+		image-rendering: high-quality;
+	}
+</style>

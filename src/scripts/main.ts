@@ -1,26 +1,26 @@
 /* ==========================================================
    Sanjana Unfiltered — JavaScript
    Navbar scroll · Mobile toggle · Intersection Observer
+   (Adapted for Astro & View Transitions)
    ========================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initSite(): void {
   // ── Navbar scroll effect ────────────────────────────────
-  const navbar = document.getElementById('navbar');
-  let lastScroll = 0;
+  const navbar = document.getElementById('navbar') as HTMLElement | null;
 
   window.addEventListener('scroll', () => {
+    if (!navbar) return;
     const currentScroll = window.scrollY;
     if (currentScroll > 60) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
-    lastScroll = currentScroll;
   }, { passive: true });
 
   // ── Mobile toggle ──────────────────────────────────────
-  const toggle = document.getElementById('navToggle');
-  const links  = document.getElementById('navLinks');
+  const toggle = document.getElementById('navToggle') as HTMLElement | null;
+  const links  = document.getElementById('navLinks') as HTMLElement | null;
 
   if (toggle && links) {
     toggle.addEventListener('click', () => {
@@ -38,34 +38,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Intersection Observer (reveal on scroll) ───────────
-  const setupReveals = () => {
-    const reveals = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const siblings = entry.target.parentElement.querySelectorAll('.reveal');
-            const index = Array.from(siblings).indexOf(entry.target);
-            entry.target.style.transitionDelay = `${index * 0.1}s`;
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const target = entry.target as HTMLElement;
+          const siblings = target.parentElement?.querySelectorAll('.reveal');
+          if (siblings) {
+            const index = Array.from(siblings).indexOf(target);
+            target.style.transitionDelay = `${index * 0.1}s`;
           }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-      reveals.forEach(el => observer.observe(el));
-    } else {
-      reveals.forEach(el => el.classList.add('visible'));
-    }
-  };
-
-  setupReveals();
-  window.setupReveals = setupReveals; // Expose for dynamic content
+          target.classList.add('visible');
+          observer.unobserve(target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  } else {
+    reveals.forEach(el => {
+      if (el instanceof HTMLElement) {
+        el.classList.add('visible');
+      }
+    });
+  }
 
   // ── Smooth scroll for anchor links ──────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const targetId = anchor.getAttribute('href');
-      if (targetId === '#') return;
+      if (!targetId || targetId === '#') return;
+      
       const target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
@@ -73,4 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-});
+}
+
+// Support for Astro View Transitions
+document.addEventListener('astro:page-load', initSite);
