@@ -851,7 +851,8 @@ ul { list-style: none; }
 
   .hero__desc { 
     margin: 0 auto 1.5rem; 
-    text-align: center;
+    text-align: left;
+    max-width: 90%;
   }
 
   .section-header {
