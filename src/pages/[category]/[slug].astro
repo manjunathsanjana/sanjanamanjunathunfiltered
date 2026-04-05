@@ -24,30 +24,73 @@ const { Content } = await render(post);
 
 	<main class="posts-list-section">
 		<div class="container">
+			<a href={`/${post.data.category}`} class="back-button reveal">
+				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+				Back to {post.data.category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+			</a>
+
 			<article class="post-content-body reveal visible">
 				<Content />
-				{post.data.image && (
-					<div class="post-image-content">
-						<img src={post.data.image} alt={post.data.title} style="width:100%; border-radius: var(--radius-md); box-shadow: var(--shadow-elevated);" />
-					</div>
-				)}
 			</article>
 		</div>
 	</main>
 </Layout>
 
 <style is:global>
+	body {
+		background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('/images/hero-collage.jpg') !important;
+		background-size: 800px auto !important;
+		background-repeat: repeat !important;
+	}
+
+	main {
+		flex: 1;
+	}
+
+	.back-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 2rem;
+		padding: 0.75rem 1.25rem;
+		background: var(--color-bg-glass);
+		backdrop-filter: blur(12px);
+		border: 1px solid rgba(232,196,176,0.2);
+		border-radius: var(--radius-md);
+		color: var(--color-text-muted);
+		font-weight: 600;
+		font-size: 0.8rem;
+		text-decoration: none;
+		transition: all var(--transition-base);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.back-button:hover {
+		color: var(--color-accent);
+		border-color: var(--color-accent);
+		transform: translateX(-4px);
+		box-shadow: var(--shadow-elevated);
+	}
+
+	.back-button svg {
+		transition: transform var(--transition-base);
+	}
+
+	.back-button:hover svg {
+		transform: translateX(-2px);
+	}
+
 	.post-content-body {
 		max-width: 800px;
-		margin: 0 auto;
-		background: var(--color-bg-glass);
-		backdrop-filter: blur(16px);
+		margin: 2.5rem auto;
+		background: rgba(250,245,240,0.85);
+		backdrop-filter: blur(8px);
 		padding: clamp(2rem, 5vw, 4rem);
-		border-radius: var(--radius-lg);
+		border-radius: var(--radius-md);
 		border: 1px solid rgba(232,196,176,0.2);
 		box-shadow: var(--shadow-soft);
 		line-height: 1.8;
-		font-size: 1.15rem;
+		font-size: 1.05rem;
 		color: var(--color-text);
 	}
 

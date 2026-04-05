@@ -41,14 +41,13 @@ body {
   font-family: var(--font-family);
   color: var(--color-text);
   background-color: var(--color-bg);
-  background-image: url('images/background.png');
+  background-image: url('/images/background.png');
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -865,21 +864,5 @@ ul { list-style: none; }
   }
 }
 
-/* ── Mobile Layout Fixes (Re-enable scroll) ─────────────── */
-@media (max-width: 900px) {
-  body {
-    height: auto;
-    min-height: 100vh;
-    overflow-y: auto; /* allow scrolling on tall mobile screens */
-    overflow-x: hidden;
-  }
-  
-  .hero {
-    padding: 6rem 0 4rem;
-  }
-  
-  .bottom-nav {
-    position: relative; /* no longer fixed to the single screen bottom if it overflows */
-    margin-top: auto;
-  }
-}
+/* ── Scrolling Configuration ─────────────────────────────── */
+/* Global body now handles min-height and natural overflow correctly. */

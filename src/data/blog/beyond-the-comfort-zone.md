@@ -2,7 +2,7 @@
 title: "Beyond the Comfort Zone"
 date: "Apr 05, 2026"
 category: "informal-experience"
-image: "/photos/informal_1.jpeg"
+image: "/photos/informal1.jpeg"
 ---
 
 Reflecting on the life I’ve lived over the past year, a journey that started exactly on this day in 2025, all I can say is: **what a ride.** If you had told me a year ago that I’d be standing here today as an independent, fearless woman, I probably wouldn’t have believed you.
