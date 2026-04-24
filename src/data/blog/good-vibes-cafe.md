@@ -2,7 +2,7 @@
 title: "Savoring the Evening at Good Vibes Cafe, Bogadi Mysuru"
 date: "Apr 20, 2026"
 category: "food"
-image: "/photos/image2.jpeg"
+image: "/photos/image3.jpeg"
 ---
 
 If you're looking for a spot that feels less like a commercial establishment and more like a cozy corner of a friend's home, Good Vibes Cafe in Bogadi lives up to its name. I spent a recent evening here, and it's the kind of place that instantly lowers your heart rate the moment you walk in.
